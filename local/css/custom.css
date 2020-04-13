@@ -1,0 +1,6 @@
+.bx-messenger-cl-item-chat-general .bx-messenger-cl-avatar-img-default, .bx-messenger-chat-general .bx-messenger-panel-avatar-img-default,
+.bx-im-users-wrap .bx-messenger-cl-avatar-status-hide .bx-messenger-cl-avatar-img {
+	background: url(/local/img/main_chat_logo.png);
+    background-size: contain;
+	background-position:unset;
+}

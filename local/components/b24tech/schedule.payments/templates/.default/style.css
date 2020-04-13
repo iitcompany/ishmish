@@ -1,0 +1,479 @@
+.schedule-payments__period {
+    position: relative;
+    padding: 10px 15px 15px;
+    background: #eef2f4;
+    margin-bottom: 15px;
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    user-select: none;
+    transition: 500ms;
+}
+.schedule-payments__period.period_create {
+    background: #d7f7d6;
+}
+.schedule-payments__period.period_default {
+    background: #fcffe4;
+}
+.period_default-name {
+    position: absolute;
+    right: 15px;
+    font-weight: bold;
+    color: #ccc;
+    font-size: 16px;
+}
+.schedule-payments__period.remove-period {
+    opacity: 0;
+}
+.table-collapse .schedule-payments__period-body {
+    height:0px;
+    overflow: hidden;
+}
+.schedule-payments__period-body {
+    transition: 300ms;
+}
+.schedule-payments__period-head.loading-save .btn-save {
+    animation: opacity 1.5s infinite;
+}
+.schedule-payments__period-head.loading-save,
+.schedule-payments__period-body.loading-save {
+    animation: opacity 1.5s infinite;
+}
+table.loading-save {
+    animation: opacity 1s infinite;
+}
+.loading-save .inp-edit {
+    padding:0;
+    border:none;
+    background: transparent;
+    user-select: none;
+}
+.period-head__fields {
+    display: flex;
+    align-items: flex-end;
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    font-size: 15px;
+}
+.period-head__fields .delimeter {
+    display: block;
+    margin: 0 5px;
+}
+.period-field__group {
+    position: relative;
+    width: 105px;
+    padding-right: 10px;
+    border-right: 1px solid #fcfcfd;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+.period-field__group input,
+.period-field__group select {
+    max-width: 100%;
+    width:100%;
+}
+.period-field__group-value {
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+    min-height: 24px;
+    color: #535c69;
+}
+.period-field__group-label {
+    font-size: 10px;
+    color: #b5b9be;
+}
+.period-head__fields .inp-edit {
+    font-size: 12px;
+}
+.schedule-payments__table td.last_row_td {
+    vertical-align: top;
+}
+.schedule-payments__table td.last_row,
+.schedule-payments__table .last_row td {
+    border-bottom: 3px solid #eef2f4;
+    background: #f8fafb;
+}
+@keyframes opacity {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+.schedule-payments__period-head.loading-save input {
+    border: none;
+    background: transparent;
+    user-select: none;
+    user-focus: none;
+}
+.schedule-payments__period-head {
+    opacity: 1;
+    margin-bottom: 10px;
+    transition: 500ms;
+}
+.period-head__title {
+    display: flex;
+    padding: 5px 0;
+    align-items: center;
+}
+.period-head__title strong {
+    display:flex;
+    font-size: 14px;
+    margin-right: 15px;
+    color: #525c69;
+}
+.inp-edit {
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    border: 1px solid #d8d8d8;
+    min-height: 24px;
+    padding: 2px 5px;
+    box-sizing: border-box;
+}
+.period-head__title-date .inp-edit {
+    font-size: 14px;
+    margin-bottom: -4px;
+}
+.period-head__title-date {
+    display: flex;
+    color:#a0a1a1;
+    align-items: flex-end;
+}
+.period-head__title-date div {
+    font-size: 15px;
+    color: #404955;
+    margin: 0 6px;
+}
+.schedule-payments__table {
+    min-width:100%;
+    border-spacing: 0;
+}
+.schedule-payments__table .loading-save {
+    background-color: #effaff;
+    animation: background 1s infinite;
+    transition: 300ms;
+}
+.schedule-payments__table .loading-save div {
+    opacity: 0.3;
+}
+.schedule-payments__table .loading-save .inp-edit {
+    background: transparent;
+    border: none;
+}
+@keyframes background {
+    50% {
+        background-color: #eef2f4;
+    }
+}
+.schedule-payments__table td {
+    padding: 5px 10px 5px;
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    border-bottom: 2px #fff solid;
+    border-right: 1px #fff solid;
+    color:#525c69;
+}
+.total_sum-row td {
+    font-size:15px;
+    font-weight: bold;
+    background: #fff;
+}
+.schedule-payments__table td div.edit-init {
+    padding: 0;
+}
+.schedule-payments__table td div {
+    position: relative;
+    padding: 2px 0;
+    min-height: 22px;
+    width:100%;
+}
+.schedule-payments__table th {
+    padding: 10px 8px;
+    border-bottom: 3px #eef2f4 solid;
+}
+.schedule-payments__table th span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: .5px;
+    font-weight: normal;
+    font-size: 9px;
+    font-family: 'OpenSans-Semibold',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    line-height: 1;
+    color: #535c69;
+}
+.table__message {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    font-size: 16px;
+    text-align: center;
+    color:#c0c0c0;
+}
+.schedule-payments__table thead {
+    background-color:#fff;
+    border-bottom: 2px #eef2f4 solid;
+}
+.schedule-payments__table tbody {
+    background-color: #fcfcfd;
+}
+.crm-lead-schedule-payment_head {
+    display:flex;
+    width:100%;
+    justify-content: flex-end;
+    padding: 15px 0;
+}
+ .schedule-payment_row.odd {
+     background: #f7f7f7;
+ }
+.schedule-payment_row.even {
+    background: #eef2f4;
+}
+.amount-value {
+    margin-bottom: 5px;
+}
+.h-hide {
+    display:none;
+}
+.group-btn {
+    display: flex;
+    justify-content: center;
+}
+.group-field label {
+    display: inline-block;
+    margin-bottom: 5px;
+    width:100%;
+}
+.group-field {
+    margin-bottom:15px;
+}
+.schedule-payments__buttons-group {
+    display: flex;
+}
+.schedule-payment_btn-edit span {
+    font-size: 16px;
+    line-height: 1;
+    color: #525c68;
+    font-weight: bold;
+    opacity: 0.4;
+}
+.schedule-payments__buttons-group button {
+    margin-right: 5px;
+}
+.schedule-payment_btn-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:none;
+    padding: 4px 5px;
+    width:22px;
+    height: 26px;
+    cursor: pointer;
+}
+.schedule-payment_btn-edit:hover span,
+.schedule-payment_btn-edit:active span,
+.schedule-payment_btn-edit:focus span {
+    opacity: 1;
+}
+.schedule-payment_edit span {
+    display: block;
+    height:14px;
+    width: 13px;
+    transition: opacity 250ms;
+    background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20viewBox%3D%220%200%2013%2013%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M10.09.854l2.056%202.078-8.042%208.02L2.05%208.873l8.04-8.02zM.894%2011.846a.215.215%200%200%200%20.054.205c.054.054.132.075.206.054l2.297-.619L1.513%209.55l-.62%202.297z%22%20fill%3D%22rgb%2882%2C92%2C104%29%22%20fill-rule%3D%22evenodd%22/%3E%3C/svg%3E') center center no-repeat;
+}
+.crm-lead-schedule-payment_head {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding: 15px 0;
+}
+.crm-lead-schedule-payment_table-head {
+    border-bottom: 1px solid #e8ecee;
+}
+.crm-lead-schedule-payment_head .schedule-payment_cell {
+    text-align:left;
+}
+.crm-lead-schedule-payment_table {
+    background: #fff;
+    padding: 15px 20px;
+}
+.schedule-payment_row {
+    display: flex;
+}
+.crm-lead-schedule-payment-amount {
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #e8ecee;
+}
+.schedule-payment_cell {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.cell-number {
+    flex: 0 70px;
+}
+.cell-date {
+    flex: 0 220px;
+}
+.cell-sum {
+    flex: 0 200px;
+}
+.cell-edit {
+    flex: 1 200px;
+}
+.cell-contract {
+    flex: 0 150px;
+}
+.cell-add-invoice {
+    flex: 0 200px;
+}
+.box-modal .inp {
+    min-width: 250px;
+    width: 300px;
+}
+input[type="text"].inp {
+    width: 75px;
+}
+.inp {
+    display: inline-block;
+    min-height: 26px;
+    box-sizing: border-box;
+    padding: 2px 6px;
+    margin: 0;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+}
+.inp-date {
+    height: 23px;
+    margin-bottom: -4px;
+    color: #2d333a;
+    font-size: 14px;
+    padding: 0 5px;
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+    background-color: #fcfcfd;
+    border: 1px solid #b5b5b5;;
+}
+.js-init-field-change {
+    cursor: text;
+}
+.period-head__title:hover .period-head__title-edit {
+    opacity: 1;
+}
+.period-head__title-edit {
+    display:flex;
+    margin-left: 5px;
+    opacity: 0;
+    transition: 300ms;
+}
+.btn-icon {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right:3px;
+    opacity: 0.35;
+    transition: 300ms;
+    cursor: pointer;
+}
+.btn-icon:hover {
+    opacity: 1;
+}
+.btn-icon-edit, .btn-icon-delete, .btn-icon-apply {
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.btn-icon-delete {
+    background-image: url('https://img.icons8.com/windows/32/000000/delete-forever.png');
+}
+.btn-icon-edit {
+    background-image: url('https://img.icons8.com/windows/32/000000/edit.png');
+}
+.btn-icon-apply {
+    background-image: url('https://img.icons8.com/ios/50/000000/save.png');
+}
+.btn-period {
+    position: relative;
+    display: inline-flex;
+    font-size: 13px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.btn-period span {
+    font-size: 12px;
+    text-decoration: underline;
+}
+.btn-period:before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 7px;
+    height: 7px;
+    right: -15px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    transition: 300ms;
+}
+.btn-period.btn-collapse:before {
+    top:4px;
+    transform: rotate(135deg);
+}
+.btn-period.btn-expand:before {
+    top:8px;
+    transform: rotate(-45deg);
+}
+.hint.error {
+    position: absolute;
+    display: flex;
+    font-size: 10px;
+    line-height: 1.4;
+    width: 110px;
+    padding: 3px 5px;
+    top: calc(100% + 3px);
+    left: calc(50% - 55px);
+    background: #ffd3df;
+    z-index: 1;
+    box-shadow: 0px 2px 5px #bfbfbf;
+    white-space: normal;
+}
+.hint.error:before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: #ffd3df;
+    width:12px;
+    height:12px;
+    top: -6px;
+    left: calc(50% - 6px);
+    transform: rotate(45deg);
+}
+.box-modal .group-field .crm-entity-widget-content-input {
+    padding: 6px 3px;
+    width: 270px;
+    font-size: 14px;
+    font-family: 'OpenSans-Regular',"Helvetica Neue",Arial,Helvetica,sans-serif;
+}
+.crm-lead-schedule-payment_head-default {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding: 0 5px;
+    border: 1px solid #e8edf0;
+}
+.crm-lead-schedule-payment_head-default select {
+    height:26px;
+    margin-right: 15px;
+    border: 1px solid #bec9d0;
+}
