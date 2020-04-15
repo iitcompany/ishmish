@@ -211,3 +211,40 @@ function paymentLog($data = array(), $type = '')
     $log .= "\n";
     file_put_contents(dirname(__FILE__) . "/payment_log_" . date('d_m_Y') . ".log", $log, FILE_APPEND);
 }
+
+function CreateHappyBirthdayChat()
+{
+    $companyWorkers = [];
+    $by = 'personal_birthday';
+    $order = 'asc';
+    $userGroups = ['1', '4']; //Company divisions
+    $filter = ['UF_DEPARTMENT' => $userGroups, 'ACTIVE' => 'Y'];
+    $rsUsers = CUser::GetList($by, $order, $filter, ['FIELDS' => ['ID', 'NAME', 'LAST_NAME', 'PERSONAL_BIRTHDAY']]);
+    while ($arUser = $rsUsers->Fetch()) {
+        $companyWorkers['ID'][] = $arUser['ID'];
+        if (strrpos($arUser['PERSONAL_BIRTHDAY_DATE'], date("-m-d", time() + (7 * 24 * 60 * 60)))) {
+            $companyWorkers['BIRTHDAY'][] = $arUser;
+        }
+    }
+
+    if ($companyWorkers['BIRTHDAY']) {
+        foreach ($companyWorkers['BIRTHDAY'] as $birthdayUser) {
+            $chatTitle = 'День рождения сотрудника '.$birthdayUser['NAME'].' '.$birthdayUser['LAST_NAME'].' - '.$birthdayUser['PERSONAL_BIRTHDAY'];
+
+            if (Loader::includeModule('im')) {
+                $pic = $_SERVER['DOCUMENT_ROOT'] . '/local/img/birthday_logo.png';
+                $avatarId = CFile::SaveFile(CFile::MakeFileArray($pic), 'im');
+                $chat = new CIMChat;
+                $chat->Add(array(
+                    'TITLE' => $chatTitle,
+                    'COLOR' => 'RED',
+                    'TYPE' => IM_MESSAGE_OPEN,
+                    'AUTHOR_ID' => '1',
+                    'AVATAR_ID' => $avatarId,
+                    'USERS' => $companyWorkers['ID'],
+                ));
+            }
+        }
+    }
+    return "CreateHappyBirthdayChat();";
+}
