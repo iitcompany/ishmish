@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 
 ### Fixed
 
+- Fix name function in B24Tech/TaskHandler 
 - Fix add chat for birthday worker personal
 - Fix execute calculate rule for schedule payments
 
