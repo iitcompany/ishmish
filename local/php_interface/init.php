@@ -40,3 +40,10 @@ function dump($var) {
     var_dump($var);
     echo '</pre>';
 }
+
+$eventManager = EventManager::getInstance();
+$eventManager->addEventHandler(
+    'tasks',
+    'OnBeforeTaskAdd',
+    array('B24tech\\TaskHandler', 'OnBeforeAddCrmEntityFromEntityChat')
+);

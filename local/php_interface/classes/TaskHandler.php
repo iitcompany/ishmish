@@ -9,7 +9,7 @@ use Bitrix\Main\Loader,
 
 class TaskHandler
 {
-    public function ChangeTask(&$arFields)
+    public function OnBeforeAddCrmEntityFromEntityChat(&$arFields)
     {
         Loader::includeModule('im');
         if (isset($arFields['DESCRIPTION']) && strpos($arFields['DESCRIPTION'], 'IM_DIALOG') !== false) {
