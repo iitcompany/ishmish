@@ -20,11 +20,11 @@ if ($_REQUEST['action']) {
     $arResult = array();
     switch ($_REQUEST['action']) {
         case 'get_group':
-            $rs = CTasks::GetList(array(), array('ID' => $_REQUEST['task_id']), array('ID', 'GROUP_ID'));
+            $rs = CTasks::GetList(array(), array('ID' => $_REQUEST['task_id'], 'CHECK_PERMISSIONS' => 'N'), array('ID', 'GROUP_ID', 'TITLE'));
             while ($ar = $rs->Fetch()) {
                 $arGroup = CSocNetGroup::GetByID($ar['GROUP_ID']);
                 if ($arGroup['NAME']) {
-                    $arResult[$ar['ID']] = htmlspecialchars_decode($arGroup['NAME']);
+                    $arResult[$ar['ID']] = htmlspecialchars_decode($arGroup['NAME'].': '.$ar['TITLE']);
                 }
             }
             break;
