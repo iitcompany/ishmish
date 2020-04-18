@@ -214,37 +214,43 @@ function paymentLog($data = array(), $type = '')
 
 function CreateHappyBirthdayChat()
 {
-    $companyWorkers = [];
-    $by = 'personal_birthday';
-    $order = 'asc';
-    $userGroups = ['1', '4']; //Company divisions
-    $filter = ['UF_DEPARTMENT' => $userGroups, 'ACTIVE' => 'Y'];
-    $rsUsers = CUser::GetList($by, $order, $filter, ['FIELDS' => ['ID', 'NAME', 'LAST_NAME', 'PERSONAL_BIRTHDAY']]);
+    $arWorkersCompany = [];
+    $rsUsers = CUser::GetList(
+        $by = 'personal_birthday', $order = 'asc',
+        ['UF_DEPARTMENT' => ['1', '4'], 'ACTIVE' => 'Y'],
+        ['FIELDS' => ['ID', 'NAME', 'LAST_NAME', 'PERSONAL_BIRTHDAY']]
+    );
+    $currentDate = new DateTime(date('d-m-Y'));
+    $currentDate = $currentDate->modify('+7 days');
+    $currentDate = strtotime($currentDate->format('Y-m-d'));
     while ($arUser = $rsUsers->Fetch()) {
-        $companyWorkers['ID'][] = $arUser['ID'];
-        if (strrpos($arUser['PERSONAL_BIRTHDAY_DATE'], date("-m-d", time() + (7 * 24 * 60 * 60)))) {
-            $companyWorkers['BIRTHDAY'][] = $arUser;
+        $arUser['IS_BIRTHDAY'] = 'N';
+        if ($arUser['PERSONAL_BIRTHDAY_DATE']) {
+            $birthDay = new DateTime(date("d-m", strtotime($arUser['PERSONAL_BIRTHDAY_DATE'])).'-'.date('Y'));
+            $birthDay = strtotime($birthDay->format('Y-m-d'));
+            if ($birthDay == $currentDate) {
+                $arUser['IS_BIRTHDAY'] = 'Y';
+            }
         }
+        $arWorkersCompany[$arUser['ID']] = $arUser;
     }
-
-    if ($companyWorkers['BIRTHDAY']) {
-        foreach ($companyWorkers['BIRTHDAY'] as $birthdayUser) {
-            $chatTitle = 'День рождения сотрудника '.$birthdayUser['NAME'].' '.$birthdayUser['LAST_NAME'].' - '.$birthdayUser['PERSONAL_BIRTHDAY'];
-
-            if (Loader::includeModule('im')) {
-                $pic = $_SERVER['DOCUMENT_ROOT'] . '/local/img/birthday_logo.png';
-                $avatarId = CFile::SaveFile(CFile::MakeFileArray($pic), 'im');
+        foreach ($arWorkersCompany as $arWorker) {
+            if ($arWorker['IS_BIRTHDAY'] == 'Y') {
+                Loader::includeModule('im');
+                $chatTitle = 'День рождения сотрудника '.$arWorker['NAME'].' '.$arWorker['LAST_NAME'].' - '.$arWorker['PERSONAL_BIRTHDAY'];
+                $arGuests = $arWorkersCompany;
+                unset($arGuests[$arWorker['ID']]);
                 $chat = new CIMChat;
                 $chat->Add(array(
                     'TITLE' => $chatTitle,
                     'COLOR' => 'RED',
                     'TYPE' => IM_MESSAGE_OPEN,
                     'AUTHOR_ID' => '1',
-                    'AVATAR_ID' => $avatarId,
-                    'USERS' => $companyWorkers['ID'],
+                    'AVATAR_ID' => CFile::SaveFile(CFile::MakeFileArray($_SERVER['DOCUMENT_ROOT'] . '/local/img/birthday_logo.png'), 'im'),
+                    'USERS' => array_keys($arGuests),
                 ));
             }
         }
-    }
+
     return "CreateHappyBirthdayChat();";
 }
