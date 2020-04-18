@@ -22,6 +22,10 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 
 ## v0.0.2 - 2020-04-18
 
+### Added
+
+- Added attach entity in task out entity in chat
+
 ### Fixed
 
 - Fix add chat for birthday worker personal

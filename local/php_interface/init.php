@@ -3,11 +3,16 @@
  * @author Lukmanov Mikhail <lukmanof92@gmail.com>
  */
 use Bitrix\Highloadblock\HighloadBlockTable as HLBT,
-    Bitrix\Main\Page\Asset;
+    Bitrix\Main\Page\Asset,
+    Bitrix\Main\EventManager;
 
 CJSCore::Init('jquery');
 
 require_once('agents.php');
+
+foreach (glob(__DIR__ . "/classes/*.php") as $classFile) {
+    require_once $classFile;
+}
 
 //include css
 foreach (glob($_SERVER['DOCUMENT_ROOT'] . "/local/css/*.css") as $file) {
