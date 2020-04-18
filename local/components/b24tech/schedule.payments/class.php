@@ -575,7 +575,7 @@ class SchedulePayments extends CBitrixComponent
                         $isError = true;
                         $arResponse['message']['system'] = 'Сумма полей "Должны оплатить" не может быть больше поля "Оплачено - план"!';
                     }
-                    if (floatval($creditTotal + $paymentFact) > floatval($arPeriod['UF_PAYMENT_PLAN'])) {
+                    if ((floatval($creditTotal) + floatval($paidTotal)) > floatval($arPeriod['UF_PAYMENT_PLAN'])) {
                         $isError = true;
                         $arResponse['message']['system'] = 'Сумма полей "Кредит" и "Оплачено" не может быть больше поля "Оплачено - план"!';
                     }

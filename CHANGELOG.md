@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.2 - 2020-04-18
+
+### Fixed
+
+- Fix execute calculate rule for schedule payments
+
 ## v0.0.1 - 2020-04-15
 
 ### Added
