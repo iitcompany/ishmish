@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.3 - 2020-04-18
+
+### Added
+
+- Added attach lead chat to deal
+
 ## v0.0.2 - 2020-04-18
 
 ### Added

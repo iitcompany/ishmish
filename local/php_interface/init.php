@@ -41,9 +41,26 @@ function dump($var) {
     echo '</pre>';
 }
 
+
+function dumpJS($var) {
+    $jsonArray = json_encode($var);
+    ?>
+    <script>
+        var fullCSVArray = '' + <? echo $jsonArray; ?>;
+        console.log(fullCSVArray);
+    </script>
+    <?
+}
+
 $eventManager = EventManager::getInstance();
 $eventManager->addEventHandler(
     'tasks',
     'OnBeforeTaskAdd',
     array('B24tech\\TaskHandler', 'OnBeforeAddCrmEntityFromEntityChat')
+);
+
+EventManager::getInstance()->addEventHandler(
+    'crm',
+    'OnAfterCrmLeadUpdate',
+    array('B24tech\\LeadHandler', 'OnAfterConversionLeadToDeal')
 );
