@@ -10,6 +10,9 @@
 .schedule-payments__period.period_create {
     background: #d7f7d6;
 }
+.schedule-payments__period.period_copy {
+    background: #99bdff4a;
+}
 .schedule-payments__period.period_default {
     background: #fcffe4;
 }

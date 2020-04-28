@@ -47,7 +47,12 @@
             }
         }
         ?>
-        <div class="schedule-payments__period table-<?=$type?> <?=$arPeriod['UF_STATUS'] == 'Y' ? 'period_create' : ''?> <?=$arPeriod['UF_DEFAULT'] ? 'period_default' : ''?>">
+        <div class="schedule-payments__period table-<?=$type?> <?=$arPeriod['UF_DEFAULT'] ? 'period_default' : ''?>
+                <? if ($arPeriod['UF_STATUS'] == 'Y') {
+                    echo 'period_create';
+                } elseif ($arPeriod['UF_STATUS'] == 'C') {
+                    echo 'period_copy';
+                }?>">
             <?=$arPeriod['UF_DEFAULT'] ? '<div class="period_default-name">ШАБЛОН</div>' : ''?>
             <div class="js-init-collapse btn-period btn-<?=$type?>"><?=$arPeriod['UF_NAME']?> (<span><?=$type == 'expand' ? 'Свернуть' : 'Развернуть'?></span>)</div>
             <div class="schedule-payments__period-head" data-period-id="<?= $arPeriod['ID'] ?>">

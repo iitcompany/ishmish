@@ -133,9 +133,11 @@ function AutoPeriodsCreate()
                             $totalMustPay = 0;
                             $PERIOD_ID = $result->getId();
 
+                            /*
                             dump($arGroup['ID']);
                             dump($PERIOD_ID);
                             dump('----');
+                            */
 
                             $arPlatforms = SchedulePayments::getListValues(SchedulePayments::PLATFORM_ID);
                             $arTargets = SchedulePayments::getListValues(SchedulePayments::TARGET_ID);

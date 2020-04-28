@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.5 - 2020-04-28
+
+### Added
+
+- When period copied, new period has a blue background
+
 ## v0.0.4 - 2020-04-28
 
 ### Fixed
