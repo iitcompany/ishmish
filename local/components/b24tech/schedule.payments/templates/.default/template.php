@@ -496,7 +496,7 @@
                     fieldType = $(this).attr('data-type'),
                     fieldName = $(this).attr('data-name');
 
-                if (fieldName !== 'UF_BALANCE' && fieldName !== 'UF_BALANCE_FACT') {
+                if (fieldName !== 'UF_BALANCE' && fieldName !== 'UF_BALANCE_FACT' && fieldName !== 'UF_BALANCE_CREDIT') {
                     $(this).empty();
                 }
                 switch (fieldType) {
@@ -517,7 +517,7 @@
 
                         break;
                     case 'string':
-                        if (fieldName !== 'UF_BALANCE' && fieldName !== 'UF_BALANCE_FACT') {
+                        if (fieldName !== 'UF_BALANCE' && fieldName !== 'UF_BALANCE_FACT' && fieldName !== 'UF_BALANCE_CREDIT') {
                             $(this).append('<input class="inp-edit" type="text" name="' + fieldName + '" value="' + fieldValue + '">');
                         }
                         break;
@@ -593,7 +593,7 @@
                     $(this).css('width', '133px');
                     headWidth = headWidth - 133;
                 } else {
-                    if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE') {
+                    if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE' || group.attr('data-name') === 'UF_BALANCE_CREDIT') {
                         $(this).css('width', '104px');
                         headWidth = headWidth - 104;
                     } else {
@@ -604,7 +604,7 @@
             });
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
-                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE') {
+                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE' && group.attr('data-name') !== 'UF_BALANCE_CREDIT') {
                     $(this).css('width', headWidth / countCell + 'px');
                 }
 
@@ -716,6 +716,8 @@
 							case 'UF_PAYMENT_TYPE':
 							case 'UF_BALANCE':
 							case 'UF_BALANCE_FACT':
+							case 'UF_CREDIT':
+							case 'UF_BALANCE_CREDIT':
 							case 'UF_PAYMENT_DATE':
 							case 'UF_CLIENT_PAY':
 							case 'UF_PAYMENT_FACT':

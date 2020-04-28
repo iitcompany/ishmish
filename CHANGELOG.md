@@ -20,6 +20,16 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.7 - 2020-04-28
+
+### Fix
+
+- Limit to 2 decimal places in field payment.plan in schedule.payments
+
+### Added
+
+- Add new field Credit.Balance in schedule.payments
+
 ## v0.0.6 - 2020-04-28
 
 ### Fix

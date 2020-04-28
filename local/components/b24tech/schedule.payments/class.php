@@ -413,6 +413,7 @@ class SchedulePayments extends CBitrixComponent
                 case 'create_period':
                     $arFields['UF_BALANCE'] = $arFields['UF_PAYMENT_PLAN'] ?: 0;
                     $arFields['UF_BALANCE_FACT'] = $arFields['UF_PAYMENT_FACT'] ?: 0;
+                    $arFields['UF_BALANCE_CREDIT'] = $arFields['UF_PAYMENT_CREDIT'] ?: 0;
                     $arFields['UF_PAYMENT_TYPE'] = 110;
                     $arFields['UF_CLIENT_PAY'] = 107;
 
@@ -478,6 +479,7 @@ class SchedulePayments extends CBitrixComponent
                         }
                     } elseif ($arFields['UF_CLIENT_PAY'] == 107) {
                         $arFields['UF_BALANCE_FACT'] = 0;
+                        $arFields['UF_BALANCE_CREDIT'] = 0;
                         $arFields['UF_PAYMENT_FACT'] = 0;
                         $arFields['UF_PAYMENT_DATE'] = '';
                         foreach ($this->arResult['PERIODS'][$_REQUEST['period_id']]['ITEMS'] as $arItems) {
@@ -506,7 +508,15 @@ class SchedulePayments extends CBitrixComponent
                     if ($arFields['UF_PAYMENT_FACT']) {
                         $arFields['UF_BALANCE_FACT'] = round(floatval($arFields['UF_PAYMENT_FACT']) - $paidTotal, 2);
                     }
+                    if ($arFields['UF_CREDIT']) {
+                        $arFields['UF_BALANCE_CREDIT'] = round(floatval($arFields['UF_CREDIT']) - $creditTotal, 2);
+                    }
                     if ($arFields['UF_PAYMENT_PLAN']) {
+                        $arTmp = explode('.', $arFields['UF_PAYMENT_PLAN']);
+                        if (strlen($arTmp[1]) > 2) {
+                            $arTmp[1] = substr($arTmp[1], 0, 2);
+                            $arFields['UF_PAYMENT_PLAN'] = implode('.', $arTmp);
+                        }
                         $arFields['UF_PAYMENT_PLAN'] = round(floatval($arFields['UF_PAYMENT_PLAN']), 2);
                     }
                     if ($arFields['UF_PAYMENT_FACT'] > $arFields['UF_PAYMENT_PLAN']) {
@@ -564,9 +574,11 @@ class SchedulePayments extends CBitrixComponent
 
                     $paymentPlan = floatval($this->arResult['PERIODS'][$_REQUEST['period_id']]['UF_PAYMENT_PLAN']);
                     $paymentFact = floatval($this->arResult['PERIODS'][$_REQUEST['period_id']]['UF_PAYMENT_FACT']);
-                    
+                    $credit = floatval($this->arResult['PERIODS'][$_REQUEST['period_id']]['UF_CREDIT']);
+
                     $balancePlan = $paymentPlan - $mustPayTotal;
                     $balanceFact = $paymentFact - $paidTotal;
+                    $balanceCredit = $credit - $creditTotal;
 
                     $totalSum = round($paidTotal, 2);
 
@@ -633,6 +645,7 @@ class SchedulePayments extends CBitrixComponent
                                             array(
                                                 'UF_BALANCE' => round(floatval($balancePlan), 2),
                                                 'UF_BALANCE_FACT' => round(floatval($balanceFact), 2),
+                                                'UF_BALANCE_CREDIT' => round(floatval($balanceCredit), 2),
                                             )
                                         );
                                         $arResponse['result'] = true;

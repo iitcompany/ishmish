@@ -123,6 +123,7 @@ function AutoPeriodsCreate()
                             'UF_NAME' => $arTemplatePeriod['UF_NAME'],
                             'UF_BALANCE' => $arTemplatePeriod['UF_BALANCE'],
                             'UF_BALANCE_FACT' => 0,
+                            'UF_BALANCE_CREDIT' => 0,
                             'UF_CREDIT' => $arLastPeriod['UF_CREDIT']
                         );
                         $result = $periodEntityClass::add($arPeriodFields);
