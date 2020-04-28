@@ -244,7 +244,7 @@ function CreateHappyBirthdayChat()
                 $chat->Add(array(
                     'TITLE' => $chatTitle,
                     'COLOR' => 'RED',
-                    'TYPE' => IM_MESSAGE_OPEN,
+                    'TYPE' => IM_MESSAGE_CHAT,
                     'AUTHOR_ID' => '1',
                     'AVATAR_ID' => CFile::SaveFile(CFile::MakeFileArray($_SERVER['DOCUMENT_ROOT'] . '/local/img/birthday_logo.png'), 'im'),
                     'USERS' => array_keys($arGuests),
