@@ -24,6 +24,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 
 ### Fix
 
+- Fix order of operations when update period
+
+## v0.0.9 - 2020-04-29
+
+### Fix
+
 - Limit to 2 decimal places in all fields in schedule.payments
 
 ### Added
