@@ -74,6 +74,12 @@ class SchedulePayments extends CBitrixComponent
                     foreach ($arSumFields as $CODE => $sum) {
                         if (isset($_REQUEST[$arItem['ID']][$CODE])) {
                             $arItem[$CODE] = floatval(str_replace(',','.', $_REQUEST[$arItem['ID']][$CODE]));
+                            $arTmp = explode('.', $arItem[$CODE]);
+                            if (strlen($arTmp[1]) > 2) {
+                                $arTmp[1] = substr($arTmp[1], 0, 2);
+                                $arItem[$CODE] = implode('.', $arTmp);
+                            }
+                            //$arItem[$CODE] = round(floatval($arItem[$CODE]), 2);
                         } else {
                             $arItem[$CODE] = isset($arItem[$CODE]) ? floatval($arItem[$CODE]) : 0;
                         }
@@ -498,9 +504,14 @@ class SchedulePayments extends CBitrixComponent
                         $arResponse['message']['UF_CREDIT'] = 'Поле "Кредит" не может быть меньше суммы полей "Кредит"!';
                     }
 
-                    if ($arFields['UF_PAYMENT_PLAN'] == 0 && $mustPayTotal > 0) {
+                    //if ($arFields['UF_PAYMENT_PLAN'] == 0 && $mustPayTotal > 0) {
+                    if ($mustPayTotal > $arFields['UF_PAYMENT_PLAN']) {
                         $error = true;
                         $arResponse['message']['UF_PAYMENT_PLAN'] = 'Поле "Оплата - план" не может быть меньше суммы полей "Должны оплатить"!';
+                    }
+                    if ($paidTotal > $arFields['UF_PAYMENT_FACT']) {
+                        $error = true;
+                        $arResponse['message']['UF_PAYMENT_FACT'] = 'Поле "Оплата - факт" не может быть меньше суммы полей "Оплачено"!';
                     }
 
                     $arFields['UF_BALANCE'] = round(floatval($arFields['UF_PAYMENT_PLAN'] - $mustPayTotal), 2);
@@ -637,7 +648,12 @@ class SchedulePayments extends CBitrixComponent
                                                 $error = true;
                                                 $arResponse['message'][$code] = 'Не может быть отрицательным значением!';
                                             } else {
-                                                $arField = round($arField, 2);
+                                                $arTmp = explode('.', $arField);
+                                                if (strlen($arTmp[1]) > 2) {
+                                                    $arTmp[1] = substr($arTmp[1], 0, 2);
+                                                    $arField = implode('.', $arTmp);
+                                                }
+                                                $arField = round(floatval($arField), 2);
                                             }
                                             break;
                                     }

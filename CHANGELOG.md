@@ -20,6 +20,17 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.9 - 2020-04-29
+
+### Fix
+
+- Limit to 2 decimal places in all fields in schedule.payments
+
+### Added
+
+- Add error when field payment.fact < must.pay.total
+- Add error when field payment.plan < pay.total
+
 ## v0.0.8 - 2020-04-29
 
 ### Fix
