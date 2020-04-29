@@ -519,6 +519,22 @@ class SchedulePayments extends CBitrixComponent
                         }
                         $arFields['UF_PAYMENT_PLAN'] = round(floatval($arFields['UF_PAYMENT_PLAN']), 2);
                     }
+                    if ($arFields['UF_PAYMENT_FACT']) {
+                        $arTmp = explode('.', $arFields['UF_PAYMENT_FACT']);
+                        if (strlen($arTmp[1]) > 2) {
+                            $arTmp[1] = substr($arTmp[1], 0, 2);
+                            $arFields['UF_PAYMENT_FACT'] = implode('.', $arTmp);
+                        }
+                        $arFields['UF_PAYMENT_FACT'] = round(floatval($arFields['UF_PAYMENT_FACT']), 2);
+                    }
+                    if ($arFields['UF_CREDIT']) {
+                        $arTmp = explode('.', $arFields['UF_CREDIT']);
+                        if (strlen($arTmp[1]) > 2) {
+                            $arTmp[1] = substr($arTmp[1], 0, 2);
+                            $arFields['UF_CREDIT'] = implode('.', $arTmp);
+                        }
+                        $arFields['UF_CREDIT'] = round(floatval($arFields['UF_CREDIT']), 2);
+                    }
                     if ($arFields['UF_PAYMENT_FACT'] > $arFields['UF_PAYMENT_PLAN']) {
                         $error = true;
                         $arResponse['message']['UF_PAYMENT_FACT'] = 'Поле "Оплата - факт" не может быть больше поля "Оплата - план"!';
