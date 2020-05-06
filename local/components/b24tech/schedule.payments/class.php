@@ -369,7 +369,7 @@ class SchedulePayments extends CBitrixComponent
         if ($arPeriodFields['UF_DEFAULT'] == 1) {
             $arPeriodFields['UF_DEFAULT'] = 0;
         }
-        $arPeriodFields['UF_STATUS'] = 'C';
+        $arPeriodFields['UF_STATUS'] = ''; // clear status
         unset($arPeriodFields['ID']);
         $entityPeriod = GetEntityDataClass(self::HL_PERIOD);
         $entity = GetEntityDataClass(self::HL);

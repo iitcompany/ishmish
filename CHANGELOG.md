@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.10 - 2020-05-06 
+
+### Fix
+
+- Fix clear "UF_STATUS" for duplicate period
+
 ## v0.0.9 - 2020-04-29
 
 ### Fix
