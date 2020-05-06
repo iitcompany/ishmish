@@ -62,7 +62,7 @@
                         $last_period = $i_period == count();
                         $i = 1;
                         foreach ($arResult['PERIOD_FIELDS'] as $FIELD) {
-                            if ($FIELD['FIELD_NAME'] != 'UF_NAME' && $FIELD['FIELD_NAME'] != 'UF_AUTO_RENEWAL' && $FIELD['FIELD_NAME'] != 'UF_DEFAULT' || ($FIELD['FIELD_NAME'] == 'UF_AUTO_RENEWAL' && $arPeriod['UF_DEFAULT'] == 1)) {
+                            if ($FIELD['FIELD_NAME'] != 'UF_BALANCE_CREDIT' && $FIELD['FIELD_NAME'] != 'UF_NAME' && $FIELD['FIELD_NAME'] != 'UF_AUTO_RENEWAL' && $FIELD['FIELD_NAME'] != 'UF_DEFAULT' || ($FIELD['FIELD_NAME'] == 'UF_AUTO_RENEWAL' && $arPeriod['UF_DEFAULT'] == 1)) {
                                 ?>
                             <div class="period-field__group">
                                 <div class="period-field__group-label">
