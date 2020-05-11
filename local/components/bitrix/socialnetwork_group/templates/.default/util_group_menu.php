@@ -6,7 +6,6 @@
 /** @global CUser $USER */
 /** @global CMain $APPLICATION */
 
-
 $arReturnGroupMenu = $APPLICATION->IncludeComponent(
 	"bitrix:socialnetwork.group_menu",
 	"",
@@ -41,7 +40,6 @@ $arReturnGroupMenu = $APPLICATION->IncludeComponent(
 	$component,
 	array("HIDE_ICONS" => "Y")
 );
-
 ?><?
 if (
 	$GLOBALS["USER"]->IsAuthorized()

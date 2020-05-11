@@ -1,9 +1,4 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-
-CJSCore::Init('jquery');
-\Bitrix\Main\Page\Asset::getInstance()->addJs('/local/components/bitrix/socialnetwork_group/templates/.default/js/menu.js');
-
-
 if (empty($arParams["RATING_TYPE"]))
 	$arParams["RATING_TYPE"] = COption::GetOptionString("main", "rating_vote_template", COption::GetOptionString("main", "rating_vote_type", "standart") == "like"? "like": "standart");
 $arParams["RATING_TYPE"] = ($arParams["RATING_TYPE"] == "like_graphic" ? "like" : ($arParams["RATING_TYPE"] == "standart" ? "standart_text" : $arParams["RATING_TYPE"]));

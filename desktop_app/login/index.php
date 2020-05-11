@@ -3,7 +3,6 @@
  * @global CUser $USER
  * @global CMain $APPLICATION
  */
-use Bitrix\Main;
 use Bitrix\Main\Authentication\ApplicationPasswordTable as ApplicationPasswordTable;
 
 if ($_SERVER["REQUEST_METHOD"] == "OPTIONS")
@@ -18,6 +17,12 @@ define("ADMIN_SECTION",false);
 require($_SERVER["DOCUMENT_ROOT"]."/desktop_app/headers.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
+if (!CModule::IncludeModule('im'))
+{
+	sendResponse(["success" => false, "code" => "module_not_installed", "reason" => 'Im module is not installed'], "403 Forbidden");
+	exit;
+}
+
 if (!IsModuleInstalled('bitrix24'))
 {
 	header('Access-Control-Allow-Origin: *');
@@ -25,7 +30,7 @@ if (!IsModuleInstalled('bitrix24'))
 
 if ($_POST['action'] != 'login')
 {
-	sendResponse(["success" => false, "reason" => 'Method not permitted'], "403 Forbidden");
+	sendResponse(["success" => false, "code" => "method_not_permitted", "reason" => 'Method not permitted'], "403 Forbidden");
 	exit;
 }
 
@@ -68,11 +73,16 @@ if ($result !== true || !$USER->IsAuthorized())
 	{
 		if ($result["CODE"] === 'ERROR_NETWORK')
 		{
-			sendResponse($answer, "500 Internal Bitrix24.Network error");
+			$answer["code"] = "network_error";
+			sendResponse($answer, "521 Internal Bitrix24.Network error");
+
+			$user = new CUser;
+			$user->Update($userId, ["LOGIN_ATTEMPTS" => 0]);
+
 			exit;
 		}
 
-		$answer["error_code"] = $result["CODE"];
+		$answer["code"] = $result["CODE"];
 	}
 
 	sendResponse($answer, "401 Unauthorized");
@@ -81,12 +91,14 @@ if ($result !== true || !$USER->IsAuthorized())
 
 if ($USER->IsAuthorized() && !isAccessAllowed())
 {
-	sendResponse(["success" => false, "reason" => 'Access denied for this type of user'], "401 Unauthorized");
+	sendResponse(["success" => false, "code" => "blocked_type", "reason" => 'Access denied for this type of user'], "401 Unauthorized");
 	exit;
 }
 
 $answer = array(
 	"success" => true,
+	"desktopRevision" => \Bitrix\Im\Revision::getDesktop(),
+	"userId" => $USER->GetID(),
 	"sessionId" => session_id(),
 	"bitrixSessionId" => bitrix_sessid()
 );
@@ -123,7 +135,7 @@ if(
 		'USER_ID' => $USER->GetID(),
 		'APPLICATION_ID' => 'desktop',
 		'PASSWORD' => $password,
-		'DATE_CREATE' => new Main\Type\DateTime(),
+		'DATE_CREATE' => new \Bitrix\Main\Type\DateTime(),
 		'CODE' => $code,
 		'COMMENT' => GetMessage('DESKTOP_APP_GENERATOR'),
 		'SYSCOMMENT' => GetMessage('DESKTOP_APP_TITE'),
@@ -148,7 +160,9 @@ function sendResponse(array $answer, string $httpCode = '200 OK')
 	if (isset($_REQUEST['json']) && $_REQUEST['json'] == 'y')
 	{
 		header('Content-Type: application/json');
-		echo Main\Web\Json::encode($answer);
+		echo \Bitrix\Main\Web\Json::encode($answer);
+
+		\Bitrix\Main\Application::getInstance()->end();
 		return true;
 	}
 
@@ -172,11 +186,21 @@ function sendResponse(array $answer, string $httpCode = '200 OK')
 	}
 
 	echo "{".implode(", ", $answerParts)."}";
+
+	\Bitrix\Main\Application::getInstance()->end();
+
 	return true;
 }
 
 function isAccessAllowed()
 {
+	global $USER;
+	
+	if ($USER->IsAdmin())
+	{
+		return true;
+	}
+
 	if (!\Bitrix\Main\Loader::includeModule('intranet'))
 	{
 		return true;
