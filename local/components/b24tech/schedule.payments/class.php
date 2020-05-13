@@ -492,9 +492,10 @@ class SchedulePayments extends CBitrixComponent
                             foreach ($arItems as $arItem) {
                                 $entity::update($arItem['ID'], array(
                                         'UF_PAID' => 0,
-                                        'UF_SPEND_NDS' => 0
+                                        //'UF_SPEND_NDS' => 0
                                     )
                                 );
+                                $this->calculate($arItem['ID']);
                             }
                         }
                     }
