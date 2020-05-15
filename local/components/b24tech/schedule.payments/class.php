@@ -12,12 +12,14 @@ Loader::includeModule("sale");
 class SchedulePayments extends CBitrixComponent
 {
     const HL = 3;
+    const HL_LOG = 6;
     const HL_PERIOD = 5;
     const PLATFORM_ID = 143;
     const TARGET_ID = 145;
 
     public $LAST_ERROR;
     public $GROUP_ID;
+    public $PERIOD_ID;
     public $loadData = false;
 
     protected function prepareData()
@@ -669,7 +671,11 @@ class SchedulePayments extends CBitrixComponent
                                     }
                                 }
                                 if ($error === false) {
+
+                                    $this->log($key, $arFields);
+
                                     $result = $entity::update($key, $arFields);
+
                                     $this->calculate($key);
                                     if (!$result->isSuccess()) {
                                         $arResponse['result'] = false;
@@ -730,5 +736,49 @@ class SchedulePayments extends CBitrixComponent
             $this->prepareData();
             $this->includeComponentTemplate();
         }
+    }
+    public function getTableCurrntFields($ID)
+    {
+        return true;
+    }
+    public function log($id, $arFields = [])
+    {
+        $arResult = [];
+        $entityRecord = GetEntityDataClass(self::HL);
+        $entityLog = GetEntityDataClass(self::HL_LOG);
+        $ar = $entityRecord::getList(
+            [
+                'filter' => [
+                    'ID' => $id,
+                ]
+            ]
+        )->fetch();
+
+        foreach ($arFields as $code => $value) {
+            switch ($code) {
+                case 'UF_MUST_PAY':
+                    $arResult = 'Поле "Должны оплатить" изменено с ' . $ar[$code] . ' на ' . $value;
+                    break;
+                case 'UF_PAID':
+                    $arResult = 'Поле "Оплачено" изменено с ' . $ar[$code] . ' на ' . $value;
+                    break;
+                case 'UF_CREDITMONEY':
+                    $arResult = 'Поле "Кредит" изменено с ' . $ar[$code] . ' на ' . $value;
+                    break;
+            }
+        }
+
+
+        global $USER;
+        $arLogFields = [
+            'UF_GROUP_ID' => $this->arResult['ID'],
+            'UF_PERIOD_ID' => $ar['UF_PERIOD'],
+            'UF_PLATFORM' => $ar['UF_PLATFORM'],
+            'UF_TARGET' => $ar['UF_TARGET'],
+            'UF_USER_ID' => $USER->GetID(),
+            'UF_RECORD' => $id,
+            'UF_HISTORY' => $arResult
+        ];
+        $entityLog::add($arLogFields);
     }
 }
