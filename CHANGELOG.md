@@ -20,6 +20,13 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.13 - 2020-05-18
+
+### Fixed
+
+- Fix background-color for duplicate period
+- Fix show field UF_BALANCE_CREDIT
+
 ## v0.0.12 - 2020-05-15
 
 ### Added

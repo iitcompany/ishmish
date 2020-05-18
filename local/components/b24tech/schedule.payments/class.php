@@ -367,6 +367,8 @@ class SchedulePayments extends CBitrixComponent
         $arPeriodFields = $this->getPeriodByID($id);
         if (strlen($arPeriodFields['UF_NAME']) > 0) {
             $arPeriodFields['UF_NAME'] .= ' (Копия)';
+        } else {
+            $arPeriodFields['UF_NAME'] = '(Копия)';
         }
         if ($arPeriodFields['UF_DEFAULT'] == 1) {
             $arPeriodFields['UF_DEFAULT'] = 0;
