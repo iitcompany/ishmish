@@ -50,7 +50,7 @@
         <div class="schedule-payments__period table-<?=$type?> <?=$arPeriod['UF_DEFAULT'] ? 'period_default' : ''?>
                 <? if ($arPeriod['UF_STATUS'] == 'Y') {
                     echo 'period_create';
-                } elseif (isset($arPeriod['UF_NAME']) && strripos($arPeriod['UF_NAME'], "Копия") >= 0) {
+                } elseif (isset($arPeriod['UF_IS_COPY']) && $arPeriod['UF_IS_COPY'] === 'Y') {
                     echo 'period_copy';
                 }?>">
             <?=$arPeriod['UF_DEFAULT'] ? '<div class="period_default-name">ШАБЛОН</div>' : ''?>
@@ -62,7 +62,7 @@
                         $last_period = $i_period == count();
                         $i = 1;
                         foreach ($arResult['PERIOD_FIELDS'] as $FIELD) {
-                            if ($FIELD['FIELD_NAME'] != 'UF_NAME' && $FIELD['FIELD_NAME'] != 'UF_AUTO_RENEWAL' && $FIELD['FIELD_NAME'] != 'UF_DEFAULT' || ($FIELD['FIELD_NAME'] == 'UF_AUTO_RENEWAL' && $arPeriod['UF_DEFAULT'] == 1)) {
+                            if ($FIELD['FIELD_NAME'] != 'UF_IS_COPY' && $FIELD['FIELD_NAME'] != 'UF_NAME' && $FIELD['FIELD_NAME'] != 'UF_AUTO_RENEWAL' && $FIELD['FIELD_NAME'] != 'UF_DEFAULT' || ($FIELD['FIELD_NAME'] == 'UF_AUTO_RENEWAL' && $arPeriod['UF_DEFAULT'] == 1)) {
                                 ?>
                             <div class="period-field__group">
                                 <div class="period-field__group-label">
