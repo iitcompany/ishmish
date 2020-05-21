@@ -74,7 +74,7 @@ function AutoPeriodsCreate()
                     $currentDate = strtotime($currentDate->format('Y-m-d'));
 
                     //Если дата завершения меньше текущей даты+15дней
-                    if ($endDate == $currentDate) {
+                    if ($endDate < $currentDate) {
 
                         $nextDateStart = new DateTime($arLastPeriod['UF_DATE_START']);
                         $nextDateStart = $nextDateStart->modify('+1 month');
@@ -124,7 +124,7 @@ function AutoPeriodsCreate()
                             'UF_BALANCE' => $arTemplatePeriod['UF_BALANCE'],
                             'UF_BALANCE_FACT' => 0,
                             'UF_BALANCE_CREDIT' => 0,
-                            'UF_CREDIT' => $arLastPeriod['UF_CREDIT']
+                            'UF_CREDIT' => 0
                         );
                         $result = $periodEntityClass::add($arPeriodFields);
                         if ($result->isSuccess()) {
@@ -158,7 +158,7 @@ function AutoPeriodsCreate()
                                         'UF_SPEND_NDS' => 0,
                                         'UF_PAID' => 0,
                                         'UF_MUST_PAY' => $mustPay,
-                                        'UF_CREDITMONEY' => $creditMoney,
+                                        'UF_CREDITMONEY' => 0,
                                         'UF_COMMENT' => ' '
                                     );
                                     $itemsEntityClass::add($fields);

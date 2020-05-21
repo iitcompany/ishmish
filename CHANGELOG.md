@@ -20,6 +20,13 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.15 - 2020-05-21
+
+### Fixed
+
+- Change date create period to <15 days
+- Set UF_CREDIT in new period to 0
+
 ## v0.0.14 - 2020-05-19
 
 ### Fixed
