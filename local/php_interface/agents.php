@@ -74,7 +74,7 @@ function AutoPeriodsCreate()
                     $currentDate = strtotime($currentDate->format('Y-m-d'));
 
                     //Если дата завершения меньше текущей даты+15дней
-                    if ($endDate < $currentDate) {
+                    if ($endDate <= $currentDate) {
 
                         $nextDateStart = new DateTime($arLastPeriod['UF_DATE_START']);
                         $nextDateStart = $nextDateStart->modify('+1 month');
