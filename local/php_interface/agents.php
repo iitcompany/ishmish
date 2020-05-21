@@ -47,7 +47,7 @@ function AutoPeriodsCreate()
                     ),
                     //'limit' => 1,
                     'order' => array(
-                        'UF_DATE_START' => 'DESC'
+                        'UF_DATE_END' => 'DESC'
                     )
                 )
             );
@@ -73,8 +73,14 @@ function AutoPeriodsCreate()
                     $currentDate = $currentDate->modify('+15 days');
                     $currentDate = strtotime($currentDate->format('Y-m-d'));
 
+                    /*dump($arLastPeriod['ID']);
+                    dump($arLastPeriod['UF_GROUP_ID']);
+                    dump($endDate);
+                    dump($currentDate);
+                    dump($endDate <= $currentDate);
+                    die();*/
                     //Если дата завершения меньше текущей даты+15дней
-                    if ($endDate >= $currentDate) {
+                    if ($endDate <= $currentDate) {
 
                         $nextDateStart = new DateTime($arLastPeriod['UF_DATE_START']);
                         $nextDateStart = $nextDateStart->modify('+1 month');
