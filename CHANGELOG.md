@@ -20,6 +20,39 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.15 - 2020-05-21
+
+### Fixed
+
+- Change date create period to <15 days
+- Set UF_CREDIT in new period to 0
+
+## v0.0.14 - 2020-05-19
+
+### Fixed
+
+- Fix background-color for duplicate period
+- Fix period auto create from template
+
+## v0.0.13 - 2020-05-18
+
+### Fixed
+
+- Fix background-color for duplicate period
+- Fix show field UF_BALANCE_CREDIT
+
+## v0.0.12 - 2020-05-15
+
+### Added
+
+- Added log for schedule payments
+
+## v0.0.11 - 2020-05-06 
+
+### Fix
+
+-Fix clear "UF_SPEND_NDS" for update period
+
 ## v0.0.10 - 2020-05-06 
 
 ### Fix

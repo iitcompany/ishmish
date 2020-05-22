@@ -26,7 +26,7 @@ function AutoPeriodsCreate()
                 ),
                 'filter' => array(
                     'UF_GROUP_ID' => $arGroup['ID'],
-                    //'UF_GROUP_ID' => 29,
+                    //'UF_GROUP_ID' => 3,
                     'UF_AUTO_RENEWAL' => 86,
                     'UF_DEFAULT' => 1
                 )
@@ -47,33 +47,40 @@ function AutoPeriodsCreate()
                     ),
                     //'limit' => 1,
                     'order' => array(
-                        'UF_DATE_START' => 'DESC'
+                        'UF_DATE_END' => 'DESC'
                     )
                 )
             );
 
-            while ($arLastPeriod = $rsPeriod->fetch()) {
-			    /*
-                    dump('arGroup: '.$arGroup['ID']);
-                    dump('arTemplatePeriod: '.$arTemplatePeriod['ID']);
-                    dump('arLastPeriod: '.$arLastPeriod['ID']);
-                    dump('arLastPeriod: '.$arLastPeriod['UF_STATUS']);
-                    dump('arLastPeriod: '.$arLastPeriod['UF_DEFAULT']);
-                    dump('---------------');
-			    */
+            $arLastPeriod = $rsPeriod->fetch();
+            //while ($arLastPeriod = $rsPeriod->fetch()) {
 
-                if ($arLastPeriod['UF_STATUS'] != 'Y' && $arLastPeriod['UF_DEFAULT'] != '1') {
+                /*dump('arGroup: '.$arGroup['ID']);
+                dump('arTemplatePeriod: '.$arTemplatePeriod['ID']);
+                dump('arLastPeriod: '.$arLastPeriod['ID']);
+                dump('arLastPeriod: '.$arLastPeriod['UF_STATUS']);
+                dump('arLastPeriod: '.$arLastPeriod['UF_DEFAULT']);
+                dump('---------------');*/
+
+                //if ($arLastPeriod['UF_STATUS'] != 'Y' && $arLastPeriod['UF_DEFAULT'] != '1') {
+                if ($arLastPeriod['UF_STATUS'] != 'Y') {
 
                     //Перебераем все периоды
                     $endDate = new DateTime($arLastPeriod['UF_DATE_END']);
                     $endDate = strtotime($endDate->format('Y-m-d'));
 
                     $currentDate = new DateTime(date('d-m-Y'));
-                    $currentDate = $currentDate->modify('+2 days');
+                    $currentDate = $currentDate->modify('+15 days');
                     $currentDate = strtotime($currentDate->format('Y-m-d'));
 
-                    //Если дата завершения меньше текущей даты+2дня
-                    if ($endDate == $currentDate) {
+                    /*dump($arLastPeriod['ID']);
+                    dump($arLastPeriod['UF_GROUP_ID']);
+                    dump($endDate);
+                    dump($currentDate);
+                    dump($endDate <= $currentDate);
+                    die();*/
+                    //Если дата завершения меньше текущей даты+15дней
+                    if ($endDate <= $currentDate) {
 
                         $nextDateStart = new DateTime($arLastPeriod['UF_DATE_START']);
                         $nextDateStart = $nextDateStart->modify('+1 month');
@@ -106,7 +113,6 @@ function AutoPeriodsCreate()
                             $nextDateEnd = $nextDateEnd->format('d.m.Y');
                         }
 
-
                         //Формируем поля для нового периода
                         $arPeriodFields = array(
                             'UF_DATE_START' => $nextDateStart->format('d.m.Y'),
@@ -124,7 +130,7 @@ function AutoPeriodsCreate()
                             'UF_BALANCE' => $arTemplatePeriod['UF_BALANCE'],
                             'UF_BALANCE_FACT' => 0,
                             'UF_BALANCE_CREDIT' => 0,
-                            'UF_CREDIT' => $arLastPeriod['UF_CREDIT']
+                            'UF_CREDIT' => 0
                         );
                         $result = $periodEntityClass::add($arPeriodFields);
                         if ($result->isSuccess()) {
@@ -134,11 +140,9 @@ function AutoPeriodsCreate()
                             $totalMustPay = 0;
                             $PERIOD_ID = $result->getId();
 
-                            /*
-                            dump($arGroup['ID']);
+                            /*dump($arGroup['ID']);
                             dump($PERIOD_ID);
-                            dump('----');
-                            */
+                            dump('----');*/
 
                             $arPlatforms = SchedulePayments::getListValues(SchedulePayments::PLATFORM_ID);
                             $arTargets = SchedulePayments::getListValues(SchedulePayments::TARGET_ID);
@@ -160,7 +164,7 @@ function AutoPeriodsCreate()
                                         'UF_SPEND_NDS' => 0,
                                         'UF_PAID' => 0,
                                         'UF_MUST_PAY' => $mustPay,
-                                        'UF_CREDITMONEY' => $creditMoney,
+                                        'UF_CREDITMONEY' => 0,
                                         'UF_COMMENT' => ' '
                                     );
                                     $itemsEntityClass::add($fields);
@@ -170,7 +174,7 @@ function AutoPeriodsCreate()
                         }
                     }
                 }
-            }
+            //}
         }
     }
     return 'AutoPeriodsCreate();';
