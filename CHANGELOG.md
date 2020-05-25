@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.16 - 2020-05-25
+
+### Fixed
+
+- Delete round function in UF_SPEND_NDS
+
 ## v0.0.15 - 2020-05-21
 
 ### Fixed

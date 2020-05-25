@@ -187,6 +187,11 @@ class SchedulePayments extends CBitrixComponent
                     $arRecordFields['UF_SPEND_NDS'] = ($arRecord['UF_PAID'] + $arRecord['UF_CREDITMONEY']) / 1.2; // Тратим включая НДС
                     break;
             }
+            $arTmp = explode('.', $arRecordFields['UF_SPEND_NDS']);
+            if (strlen($arTmp[1]) > 2) {
+                $arTmp[1] = substr($arTmp[1], 0, 2);
+                $arRecordFields['UF_SPEND_NDS'] = implode('.', $arTmp);
+            }
             $arRecordFields['UF_SPEND_NDS'] = round(floatval($arRecordFields['UF_SPEND_NDS']), 2);
             $arRecordFields['UF_BUDGET_PERIOD'] = $arRecordFields['UF_SPEND_NDS'] - $arRecord['UF_BUDGET_SPEND']; // Бюджет осталось в периоде
             //$arRecordFields['UF_BALANCE'] = ''; // Остатки остатков
