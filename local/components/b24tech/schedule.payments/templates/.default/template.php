@@ -49,38 +49,58 @@
         ?>
         <div class="schedule-payments__period table-<?=$type?> <?=$arPeriod['UF_DEFAULT'] ? 'period_default' : ''?>
                 <? if ($arPeriod['UF_STATUS'] == 'Y') {
-                    echo 'period_create';
-                } elseif (isset($arPeriod['UF_IS_COPY']) && $arPeriod['UF_IS_COPY'] === 'Y') {
-                    echo 'period_copy';
-                }?>">
+            echo 'period_create';
+        } elseif (isset($arPeriod['UF_IS_COPY']) && $arPeriod['UF_IS_COPY'] === 'Y') {
+            echo 'period_copy';
+        }?>">
             <?=$arPeriod['UF_DEFAULT'] ? '<div class="period_default-name">ШАБЛОН</div>' : ''?>
-            <div class="js-init-collapse btn-period btn-<?=$type?>"><?=$arPeriod['UF_NAME']?> (<span><?=$type == 'expand' ? 'Свернуть' : 'Развернуть'?></span>)</div>
+            <div class="schedule-payments__title">
+                <div class="js-init-collapse btn-period btn-<?=$type?>"><?=$arPeriod['UF_NAME']?> (<span><?=$type == 'expand' ? 'Свернуть' : 'Развернуть'?></span>)</div>
+                <div class="period-head__title-edit">
+                        <span class="btn-icon btn-edit js-init-change-period" title="Редактировать">
+                            <span class="btn-icon-edit"></span>
+                        </span>
+                    <?if ($arPeriod['UF_DEFAULT'] != '1') {?>
+                        <span class="btn-icon btn-edit js-init-delete-period" title="Удалить">
+                                <span class="btn-icon-delete"></span>
+                            </span>
+                    <?}?>
+                    <span class="btn-icon btn-save js-init-save-period" title="Сохранить" style="display: none">
+                            <span class="btn-icon-apply"></span>
+                        </span>
+                </div>
+            </div>
             <div class="schedule-payments__period-head" data-period-id="<?= $arPeriod['ID'] ?>">
                 <div class="period-head__title">
                     <div class="period-head__fields">
                         <?
-                        $last_period = $i_period == count();
-                        $i = 1;
+                        //$last_period = $i_period == count();
+                        //$i = 1;
                         foreach ($arResult['PERIOD_FIELDS'] as $FIELD) {
                             if ($FIELD['FIELD_NAME'] != 'UF_IS_COPY' && $FIELD['FIELD_NAME'] != 'UF_NAME' && $FIELD['FIELD_NAME'] != 'UF_AUTO_RENEWAL' && $FIELD['FIELD_NAME'] != 'UF_DEFAULT' || ($FIELD['FIELD_NAME'] == 'UF_AUTO_RENEWAL' && $arPeriod['UF_DEFAULT'] == 1)) {
                                 ?>
-                            <div class="period-field__group">
-                                <div class="period-field__group-label">
-                                    <?= $arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['LIST_COLUMN_LABEL'] ?>:
-                                </div>
-                                <? switch ($FIELD['USER_TYPE_ID']) {
-                                    case 'date':
-                                        ?>
-                                        <div data-name="<?= $FIELD['FIELD_NAME'] ?>"
-                                             data-type="<?= $FIELD['USER_TYPE_ID'] ?>"
-                                             data-value="<?= strlen($arPeriod[$FIELD['FIELD_NAME']]) > 0 ? date_format(date_create($arPeriod[$FIELD['FIELD_NAME']]), 'Y-m-d') : '' ?>"
-                                             class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
-                                            <?= $arPeriod[$FIELD['FIELD_NAME']] ?: 'Не указано' ?>
-                                        </div>
-                                        <?
-                                        break;
-                                    case 'enumeration':
-                                        ?>
+                                <div class="period-field__group <?=$FIELD['FIELD_NAME'] === 'UF_BALANCE'
+                                        || $FIELD['FIELD_NAME'] === 'UF_BALANCE_CREDIT'
+                                        || $FIELD['FIELD_NAME'] === 'UF_BALANCE_FACT' ? 'period-field__group_balance' : ''?>
+                                        <?=$FIELD['FIELD_NAME'] === 'UF_DATE_START'
+                                        || $FIELD['FIELD_NAME'] === 'UF_DATE_END'
+                                        || $FIELD['FIELD_NAME'] === 'UF_PAYMENT_DATE' ? 'period-field__group_date' : ''?>">
+                                    <div class="period-field__group-label">
+                                        <?= $arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['LIST_COLUMN_LABEL'] ?>:
+                                    </div>
+                                    <? switch ($FIELD['USER_TYPE_ID']) {
+                                        case 'date':
+                                            ?>
+                                            <div data-name="<?= $FIELD['FIELD_NAME'] ?>"
+                                                 data-type="<?= $FIELD['USER_TYPE_ID'] ?>"
+                                                 data-value="<?= strlen($arPeriod[$FIELD['FIELD_NAME']]) > 0 ? date_format(date_create($arPeriod[$FIELD['FIELD_NAME']]), 'Y-m-d') : '' ?>"
+                                                 class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
+                                                <?= $arPeriod[$FIELD['FIELD_NAME']] ?: 'Не указано' ?>
+                                            </div>
+                                            <?
+                                            break;
+                                        case 'enumeration':
+                                            ?>
                                             <div data-name="<?= $FIELD['FIELD_NAME'] ?>"
                                                  data-type="<?= $FIELD['USER_TYPE_ID'] ?>"
                                                  data-values='<?= json_encode($arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['VALUES']) ?>'
@@ -88,41 +108,27 @@
                                                  class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
                                                 <?= $arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['VALUES'][$arPeriod[$FIELD['FIELD_NAME']]]['VALUE'] ?>
                                             </div>
-                                        <?
+                                            <?
 
-                                        break;
-                                    case 'string':
-                                        ?>
-                                        <div data-name="<?= $FIELD['FIELD_NAME'] ?>"
-                                             data-type="<?= $FIELD['USER_TYPE_ID'] ?>"
-                                             data-value="<?= $arPeriod[$FIELD['FIELD_NAME']]?>"
-                                             class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
-                                            <?if (strpos($FIELD['FIELD_NAME'], 'UF_BALANCE') !== false) {?>
-                                                <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 0?>
-                                            <?} else {?>
-                                                <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 'Не указано'?>
-                                            <?}?>
-                                        </div>
-                                        <?
-                                        break;
-                                } ?>
-                            </div>
+                                            break;
+                                        case 'string':
+                                            ?>
+                                            <div data-name="<?= $FIELD['FIELD_NAME'] ?>"
+                                                 data-type="<?= $FIELD['USER_TYPE_ID'] ?>"
+                                                 data-value="<?= $arPeriod[$FIELD['FIELD_NAME']]?>"
+                                                 class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
+                                                <?if (strpos($FIELD['FIELD_NAME'], 'UF_BALANCE') !== false) {?>
+                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 0?>
+                                                <?} else {?>
+                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 'Не указано'?>
+                                                <?}?>
+                                            </div>
+                                            <?
+                                            break;
+                                    } ?>
+                                </div>
+                            <? } ?>
                         <? } ?>
-                        <? } ?>
-                    </div>
-
-                    <div class="period-head__title-edit">
-                        <span class="btn-icon btn-edit js-init-change-period" title="Редактировать">
-                            <span class="btn-icon-edit"></span>
-                        </span>
-                        <?if ($arPeriod['UF_DEFAULT'] != '1') {?>
-                            <span class="btn-icon btn-edit js-init-delete-period" title="Удалить">
-                                <span class="btn-icon-delete"></span>
-                            </span>
-                        <?}?>
-                        <span class="btn-icon btn-save js-init-save-period" title="Сохранить" style="display: none">
-                            <span class="btn-icon-apply"></span>
-                        </span>
                     </div>
                 </div>
             </div>
@@ -234,26 +240,26 @@
                                 $i++;
                                 if ($last_row) {?>
                                     <tr class="last_row">
-                                    <?$clm = 1;
-                                    foreach ($arResult['FIELDS'] as $arField) {
-                                        if ($clm != 2) { ?>
-                                        <td <?=$clm == 1 ? 'colspan="2"' : ''?> style="text-align: <?= $clm == 1 ? 'right' : 'left' ?>">
-                                            <strong>
-                                                <?$text = $arField['FIELD_NAME'] == 'INDEX' ? 'Итого:' : ' '?>
-                                                <?=isset($arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']])
-                                                    ?
-                                                    $arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']]
-                                                    :
-                                                    $text;
-                                                ?>
-                                            </strong>
-                                        </td>
-                                            <?
+                                        <?$clm = 1;
+                                        foreach ($arResult['FIELDS'] as $arField) {
+                                            if ($clm != 2) { ?>
+                                                <td <?=$clm == 1 ? 'colspan="2"' : ''?> style="text-align: <?= $clm == 1 ? 'right' : 'left' ?>">
+                                                    <strong>
+                                                        <?$text = $arField['FIELD_NAME'] == 'INDEX' ? 'Итого:' : ' '?>
+                                                        <?=isset($arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']])
+                                                            ?
+                                                            $arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']]
+                                                            :
+                                                            $text;
+                                                        ?>
+                                                    </strong>
+                                                </td>
+                                                <?
                                             }
-                                        $clm++;
-                                    } ?>
+                                            $clm++;
+                                        } ?>
                                     </tr>
-                                <?
+                                    <?
                                 }
                             }
 
@@ -285,8 +291,8 @@
             </div>
         </div>
 
-    <?
-    $period_index++;
+        <?
+        $period_index++;
     } ?>
 
 </div>
@@ -399,7 +405,7 @@
         });
         initPeriodDelete.on('click', function (e) {
             let periodWrapper = $(this).closest('.schedule-payments__period'),
-                headWrapper = $(this).closest('.schedule-payments__period-head'),
+                headWrapper = periodWrapper.find('.schedule-payments__period-head'),
                 period_id = headWrapper.attr('data-period-id'),
                 data = {};
 
@@ -423,7 +429,7 @@
             }
         });
         initPeriodSave.on('click', function (e) {
-            let headWrapper = $(this).closest('.schedule-payments__period-head'),
+            let headWrapper = $(this).closest('.schedule-payments__period').find('.schedule-payments__period-head'),
                 period_id = headWrapper.attr('data-period-id'),
                 send = false,
                 data = {};
@@ -481,7 +487,12 @@
         });
         initPeriodEdit.on('click', function (e) {
             let btnWrapper = $(this).closest('.period-head__title-edit'),
-                fieldsWrapper = $(this).closest('.period-head__title').find('.period-head__fields');
+                fieldsWrapper = $(this).closest('.schedule-payments__period').find('.period-head__fields'),
+                balanceFields = fieldsWrapper.find('.period-field__group_balance'),
+                dateFields = fieldsWrapper.find('.period-field__group_date');
+
+            balanceFields.hide();
+            dateFields.width('135px');
 
             btnWrapper.find('.btn-icon').each(function () {
                 if ($(this).hasClass('btn-save') === false) {
@@ -571,7 +582,7 @@
         $(document).mouseup(function (e) {
             let initEdit = $(".js-init-field-change");
             if (!initEdit.is(e.target) && initEdit.has(e.target).length === 0) {
-               // checkAndSendData();
+                // checkAndSendData();
             }
         });
     });
@@ -590,21 +601,25 @@
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
                 if (group.attr('data-type') === 'date') {
-                    $(this).css('width', '133px');
+                    $(this).css('width', '75px');
                     headWidth = headWidth - 133;
                 } else {
-                    if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE' || group.attr('data-name') === 'UF_BALANCE_CREDIT') {
+                    /*if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE' || group.attr('data-name') === 'UF_BALANCE_CREDIT') {
                         $(this).css('width', '104px');
                         headWidth = headWidth - 104;
+                    } else {*/
+                    if (group.attr('data-name') === 'UF_CLIENT_PAY') {
+                        $(this).css('width', '65px');
+                        headWidth = headWidth - 65;
                     } else {
                         countCell++;
                     }
                 }
-                headWidth = headWidth - 10;
+                headWidth = headWidth + 11;
             });
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
-                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE' && group.attr('data-name') !== 'UF_BALANCE_CREDIT') {
+                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_CLIENT_PAY' /*&& group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE' && group.attr('data-name') !== 'UF_BALANCE_CREDIT'*/) {
                     $(this).css('width', headWidth / countCell + 'px');
                 }
 
@@ -711,64 +726,64 @@
                     <input type="hidden" value="create_period" name="action">
                     <?= bitrix_sessid_post() ?>
                     <? foreach ($arResult['PERIOD_FIELDS'] as &$arField) {
-						switch ($arField['FIELD_NAME']) {
-							case 'UF_GROUP_ID':
-							case 'UF_PAYMENT_TYPE':
-							case 'UF_BALANCE':
-							case 'UF_BALANCE_FACT':
-							case 'UF_CREDIT':
-							case 'UF_BALANCE_CREDIT':
-							case 'UF_PAYMENT_DATE':
-							case 'UF_CLIENT_PAY':
-							case 'UF_PAYMENT_FACT':
-							case 'UF_DEFAULT':
-							case 'UF_AUTO_RENEWAL':
-								continue;
-								break;
-							default:
-							?>
-							<div class="group-field">
-                            <label for="<?= $arField['FIELD_NAME'] ?>"><?= $arField['LIST_COLUMN_LABEL'] ?></label>
+                        switch ($arField['FIELD_NAME']) {
+                            case 'UF_GROUP_ID':
+                            case 'UF_PAYMENT_TYPE':
+                            case 'UF_BALANCE':
+                            case 'UF_BALANCE_FACT':
+                            case 'UF_CREDIT':
+                            case 'UF_BALANCE_CREDIT':
+                            case 'UF_PAYMENT_DATE':
+                            case 'UF_CLIENT_PAY':
+                            case 'UF_PAYMENT_FACT':
+                            case 'UF_DEFAULT':
+                            case 'UF_AUTO_RENEWAL':
+                                continue;
+                                break;
+                            default:
+                                ?>
+                                <div class="group-field">
+                                    <label for="<?= $arField['FIELD_NAME'] ?>"><?= $arField['LIST_COLUMN_LABEL'] ?></label>
 
-                            <? switch ($arField['USER_TYPE_ID']) {
-                                case 'string':
-                                    ?>
-                                    <input id="<?= $arField['FIELD_NAME'] ?>"
-                                           class="crm-entity-widget-content-input inp"
-                                           type="text"
-                                           name="<?= $arField['FIELD_NAME'] ?>">
-                                    <?
-                                    break;
-                                case 'date':
-                                    ?>
-                                    <input id="<?= $arField['FIELD_NAME'] ?>"
-                                           class="crm-entity-widget-content-input inp"
-                                           type="date"
-                                           name="<?= $arField['FIELD_NAME'] ?>">
-                                    <?
-                                    break;
-                                case 'enumeration':
-                                    ?>
-                                    <select id="<?= $arField['FIELD_NAME'] ?>"
-                                            class="crm-entity-widget-content-input inp"
-                                            name="<?= $arField['FIELD_NAME'] ?>">
-                                        <?
-                                        foreach ($arField['VALUES'] as $arValue) { ?>
-                                            <option value="<?= $arValue['ID'] ?>" <?=$arValue['DEF'] == 'Y' ? 'selected' : ''?>>
-                                                <?= $arValue['VALUE'] ?>
-                                            </option>
+                                    <? switch ($arField['USER_TYPE_ID']) {
+                                        case 'string':
+                                            ?>
+                                            <input id="<?= $arField['FIELD_NAME'] ?>"
+                                                   class="crm-entity-widget-content-input inp"
+                                                   type="text"
+                                                   name="<?= $arField['FIELD_NAME'] ?>">
                                             <?
-                                        } ?>
-                                    </select>
-                                    <?
-                                    break;
-                            } ?>
-                        </div>
-							<?
-						
-						}
+                                            break;
+                                        case 'date':
+                                            ?>
+                                            <input id="<?= $arField['FIELD_NAME'] ?>"
+                                                   class="crm-entity-widget-content-input inp"
+                                                   type="date"
+                                                   name="<?= $arField['FIELD_NAME'] ?>">
+                                            <?
+                                            break;
+                                        case 'enumeration':
+                                            ?>
+                                            <select id="<?= $arField['FIELD_NAME'] ?>"
+                                                    class="crm-entity-widget-content-input inp"
+                                                    name="<?= $arField['FIELD_NAME'] ?>">
+                                                <?
+                                                foreach ($arField['VALUES'] as $arValue) { ?>
+                                                    <option value="<?= $arValue['ID'] ?>" <?=$arValue['DEF'] == 'Y' ? 'selected' : ''?>>
+                                                        <?= $arValue['VALUE'] ?>
+                                                    </option>
+                                                    <?
+                                                } ?>
+                                            </select>
+                                            <?
+                                            break;
+                                    } ?>
+                                </div>
+                            <?
+
+                        }
                         ?>
-                        
+
                     <? } ?>
 
                     <div class="group-btn">

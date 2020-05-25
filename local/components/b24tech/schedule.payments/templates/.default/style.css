@@ -7,6 +7,9 @@
     user-select: none;
     transition: 500ms;
 }
+.schedule-payments__title {
+    display: flex;
+}
 .schedule-payments__period.period_create {
     background: #d7f7d6;
 }
@@ -88,6 +91,12 @@ table.loading-save {
 }
 .period-head__fields .inp-edit {
     font-size: 12px;
+}
+.inp-edit[type="date"]:hover,
+.inp-edit[type="date"]:focus,
+.inp-edit[type="date"]:active {
+    max-width: 140px;
+    width: 140px;
 }
 .schedule-payments__table td.last_row_td {
     vertical-align: top;
@@ -232,9 +241,9 @@ table.loading-save {
     justify-content: flex-end;
     padding: 15px 0;
 }
- .schedule-payment_row.odd {
-     background: #f7f7f7;
- }
+.schedule-payment_row.odd {
+    background: #f7f7f7;
+}
 .schedule-payment_row.even {
     background: #eef2f4;
 }
@@ -368,12 +377,12 @@ input[type="text"].inp {
 .js-init-field-change {
     cursor: text;
 }
-.period-head__title:hover .period-head__title-edit {
+.schedule-payments__title:hover .period-head__title-edit {
     opacity: 1;
 }
 .period-head__title-edit {
     display:flex;
-    margin-left: 5px;
+    margin-left: 30px;
     opacity: 0;
     transition: 300ms;
 }

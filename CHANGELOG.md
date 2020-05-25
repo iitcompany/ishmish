@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.17 - 2020-05-25
+
+### Fixed
+
+- Change period fields width in title schedule payment table
+
 ## v0.0.16 - 2020-05-25
 
 ### Fixed
