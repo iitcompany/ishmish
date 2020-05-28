@@ -82,6 +82,9 @@
                                 <div class="period-field__group <?=$FIELD['FIELD_NAME'] === 'UF_BALANCE'
                                         || $FIELD['FIELD_NAME'] === 'UF_BALANCE_CREDIT'
                                         || $FIELD['FIELD_NAME'] === 'UF_BALANCE_FACT' ? 'period-field__group_balance' : ''?>
+                                        <?=$FIELD['FIELD_NAME'] === 'UF_CLIENT_PAY'
+                                        || $FIELD['FIELD_NAME'] === 'UF_PAYMENT_TYPE'
+                                        || $FIELD['FIELD_NAME'] === 'UF_AUTO_RENEWAL' ? 'period-field__group_enum' : ''?>
                                         <?=$FIELD['FIELD_NAME'] === 'UF_DATE_START'
                                         || $FIELD['FIELD_NAME'] === 'UF_DATE_END'
                                         || $FIELD['FIELD_NAME'] === 'UF_PAYMENT_DATE' ? 'period-field__group_date' : ''?>">
@@ -489,10 +492,12 @@
             let btnWrapper = $(this).closest('.period-head__title-edit'),
                 fieldsWrapper = $(this).closest('.schedule-payments__period').find('.period-head__fields'),
                 balanceFields = fieldsWrapper.find('.period-field__group_balance'),
+                enumFields = fieldsWrapper.find('.period-field__group_enum'),
                 dateFields = fieldsWrapper.find('.period-field__group_date');
 
             balanceFields.hide();
             dateFields.width('135px');
+            enumFields.width('100px');
 
             btnWrapper.find('.btn-icon').each(function () {
                 if ($(this).hasClass('btn-save') === false) {
@@ -602,24 +607,27 @@
                 let group = $(this).find('.period-field__group-value');
                 if (group.attr('data-type') === 'date') {
                     $(this).css('width', '80px');
-                    headWidth = headWidth - 133;
+                    headWidth = headWidth - 80;
                 } else {
                     /*if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE' || group.attr('data-name') === 'UF_BALANCE_CREDIT') {
                         $(this).css('width', '104px');
                         headWidth = headWidth - 104;
                     } else {*/
                     if (group.attr('data-name') === 'UF_CLIENT_PAY') {
-                        $(this).css('width', '65px');
-                        headWidth = headWidth - 65;
+                        $(this).css('width', '50px');
+                        headWidth = headWidth - 50;
+                    } else if (group.attr('data-name') === 'UF_AUTO_RENEWAL' || group.attr('data-name') === 'UF_PAYMENT_TYPE' ) {
+                        $(this).css('width', '80px');
+                        headWidth = headWidth - 80;
                     } else {
                         countCell++;
                     }
                 }
-                headWidth = headWidth + 10;
+                headWidth = headWidth - 5;
             });
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
-                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_CLIENT_PAY' /*&& group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE' && group.attr('data-name') !== 'UF_BALANCE_CREDIT'*/) {
+                if (group.attr('data-type') !== 'date' && group.attr('data-name') !== 'UF_CLIENT_PAY' && group.attr('data-name') !== 'UF_AUTO_RENEWAL' && group.attr('data-name') !== 'UF_PAYMENT_TYPE' /*&& group.attr('data-name') !== 'UF_BALANCE_FACT' && group.attr('data-name') !== 'UF_BALANCE' && group.attr('data-name') !== 'UF_BALANCE_CREDIT'*/) {
                     $(this).css('width', headWidth / countCell + 'px');
                 }
 
