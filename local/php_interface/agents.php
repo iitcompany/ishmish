@@ -247,6 +247,7 @@ function CreateHappyBirthdayChat()
                 $chatTitle = 'День рождения сотрудника '.$arWorker['NAME'].' '.$arWorker['LAST_NAME'].' - '.$arWorker['PERSONAL_BIRTHDAY'];
                 $arGuests = $arWorkersCompany;
                 unset($arGuests[$arWorker['ID']]);
+                $message = 'Коллеги обратите внимание, скоро день рождения у сотрудника '.$arWorker['NAME'].' '.$arWorker['LAST_NAME'].' - '.$arWorker['PERSONAL_BIRTHDAY'];
                 $chat = new CIMChat;
                 $chat->Add(array(
                     'TITLE' => $chatTitle,
@@ -255,6 +256,7 @@ function CreateHappyBirthdayChat()
                     'AUTHOR_ID' => '1',
                     'AVATAR_ID' => CFile::SaveFile(CFile::MakeFileArray($_SERVER['DOCUMENT_ROOT'] . '/local/img/birthday_logo.png'), 'im'),
                     'USERS' => array_keys($arGuests),
+                    'MESSAGE' => $message,
                 ));
             }
         }
