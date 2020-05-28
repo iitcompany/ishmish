@@ -86,7 +86,7 @@
                                         || $FIELD['FIELD_NAME'] === 'UF_DATE_END'
                                         || $FIELD['FIELD_NAME'] === 'UF_PAYMENT_DATE' ? 'period-field__group_date' : ''?>">
                                     <div class="period-field__group-label">
-                                        <?= $arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['LIST_COLUMN_LABEL'] ?>:
+                                        <?= str_replace('Нераспределенные', 'Нераспред.', $arResult['PERIOD_FIELDS'][$FIELD['FIELD_NAME']]['LIST_COLUMN_LABEL'])?>:
                                     </div>
                                     <? switch ($FIELD['USER_TYPE_ID']) {
                                         case 'date':
@@ -118,9 +118,9 @@
                                                  data-value="<?= $arPeriod[$FIELD['FIELD_NAME']]?>"
                                                  class="period-field__group-value type-<?= $FIELD['USER_TYPE_ID'] ?>">
                                                 <?if (strpos($FIELD['FIELD_NAME'], 'UF_BALANCE') !== false) {?>
-                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 0?>
+                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ? number_format($arPeriod[$FIELD['FIELD_NAME']], 2, '.', ' ') : 0?>
                                                 <?} else {?>
-                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ?: 'Не указано'?>
+                                                    <?=$arPeriod[$FIELD['FIELD_NAME']] ? number_format($arPeriod[$FIELD['FIELD_NAME']], 2, '.', ' ') : 'Не указано'?>
                                                 <?}?>
                                             </div>
                                             <?
@@ -179,7 +179,7 @@
                                                              data-name="<?= $arField['FIELD_NAME'] ?>"
                                                              data-value="<?= $arItem[$arField['FIELD_NAME']] ?>"
                                                              class="<?=$edit ? 'js-init-field-change' : ''?>">
-                                                            <?= $arItem[$arField['FIELD_NAME']] ?>
+                                                            <?= number_format($arItem[$arField['FIELD_NAME']], 2, '.', ' ') ?>
                                                         </div>
                                                     </td>
                                                     <?
@@ -248,7 +248,7 @@
                                                         <?$text = $arField['FIELD_NAME'] == 'INDEX' ? 'Итого:' : ' '?>
                                                         <?=isset($arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']])
                                                             ?
-                                                            $arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']]
+                                                            number_format($arResult['SUM'][$arPeriod['ID']][$platform_id][$arField['FIELD_NAME']], 2, '.', ' ')
                                                             :
                                                             $text;
                                                         ?>
@@ -275,7 +275,7 @@
                                             <?$text = $arField['FIELD_NAME'] == 'INDEX' ? 'Общий итог:' : ' '?>
                                             <?=isset($arResult['TOTAL_SUM'][$arPeriod['ID']][$arField['FIELD_NAME']])
                                                 ?
-                                                $arResult['TOTAL_SUM'][$arPeriod['ID']][$arField['FIELD_NAME']]
+                                                number_format($arResult['TOTAL_SUM'][$arPeriod['ID']][$arField['FIELD_NAME']], 2, '.', ' ')
                                                 :
                                                 $text;
                                             ?>
@@ -601,7 +601,7 @@
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
                 if (group.attr('data-type') === 'date') {
-                    $(this).css('width', '75px');
+                    $(this).css('width', '80px');
                     headWidth = headWidth - 133;
                 } else {
                     /*if (group.attr('data-name') === 'UF_BALANCE_FACT' || group.attr('data-name') === 'UF_BALANCE' || group.attr('data-name') === 'UF_BALANCE_CREDIT') {
@@ -615,7 +615,7 @@
                         countCell++;
                     }
                 }
-                headWidth = headWidth + 11;
+                headWidth = headWidth + 10;
             });
             $(this).find('.period-field__group').each(function () {
                 let group = $(this).find('.period-field__group-value');
