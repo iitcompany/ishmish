@@ -20,6 +20,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 > - Каждая запись **должна** завершаться указанием ссылки на того, кто внёс те или иные изменения
 
 
+## v0.0.20 - 2020-05-31
+
+### Added
+
+- Add birthday chat reminder
+
 ## v0.0.19 - 2020-05-28
 
 ### Fixed

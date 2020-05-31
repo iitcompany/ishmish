@@ -4,6 +4,7 @@
  */
 
 use Bitrix\Main\Loader;
+use Bitrix\Im\Chat;
 
 function AutoPeriodsCreate()
 {
@@ -262,4 +263,32 @@ function CreateHappyBirthdayChat()
         }
 
     return "CreateHappyBirthdayChat();";
+}
+
+function HappyBirthdayChatReminder()
+{
+    Loader::includeModule('im');
+    $currentDate = new DateTime(date('d-m-Y'));
+    $currentDate = $currentDate->modify('+7 days');
+    $currentDate = strtotime($currentDate->format('Y-m-d'));
+    $birthDate = date('d.m', $currentDate);
+    $arChats = Chat::getList();
+    foreach ($arChats as $chat) {
+        if (strripos($chat['NAME'], 'День рождения сотрудника') !== false && strripos($chat['NAME'], $birthDate) !== false) {
+            $birthdayChat[] = $chat;
+        }
+    }
+    if (isset($birthdayChat)) {
+        foreach ($birthdayChat as $arChat) {
+            $message = 'Коллеги обратите внимание, скоро день рождения у сотрудника '.str_replace('День рождения сотрудника ', '', $arChat['NAME']);
+            $result = CIMChat::AddSystemMessage([
+                'CHAT_ID' => $arChat['ID'],
+                'USER_ID' => '1',
+                'MESSAGE' => $message,
+
+            ]);
+        }
+    }
+
+    return "HappyBirthdayChatReminder();";
 }
