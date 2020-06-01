@@ -376,6 +376,11 @@ class SchedulePayments extends CBitrixComponent
         if ($arPeriodFields['UF_DEFAULT'] == 1) {
             $arPeriodFields['UF_DEFAULT'] = 0;
         }
+        $arPeriodFields['UF_CLIENT_PAY'] = '107';
+        $arPeriodFields['UF_PAYMENT_DATE'] = '';
+        $arPeriodFields['UF_PAYMENT_TYPE'] = '110';
+        $arPeriodFields['UF_PAYMENT_FACT'] = '0';
+        $arPeriodFields['UF_BALANCE_FACT'] = '0';
         $arPeriodFields['UF_STATUS'] = ''; // clear status
         $arPeriodFields['UF_IS_COPY'] = 'Y';
         unset($arPeriodFields['ID']);
