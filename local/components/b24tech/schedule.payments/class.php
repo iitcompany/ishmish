@@ -550,10 +550,10 @@ class SchedulePayments extends CBitrixComponent
 
                     $arFields['UF_BALANCE'] = round(floatval($arFields['UF_PAYMENT_PLAN'] - $mustPayTotal), 2);
 
-                    if ($arFields['UF_PAYMENT_FACT']) {
+                    if (isset($arFields['UF_PAYMENT_FACT'])) {
                         $arFields['UF_BALANCE_FACT'] = round(floatval($arFields['UF_PAYMENT_FACT']) - $paidTotal, 2);
                     }
-                    if ($arFields['UF_CREDIT']) {
+                    if (isset($arFields['UF_CREDIT'])) {
                         $arFields['UF_BALANCE_CREDIT'] = round(floatval($arFields['UF_CREDIT']) - $creditTotal, 2);
                     }
                     if ($arFields['UF_PAYMENT_FACT'] > $arFields['UF_PAYMENT_PLAN']) {
