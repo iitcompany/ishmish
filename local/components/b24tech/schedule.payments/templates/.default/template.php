@@ -182,7 +182,7 @@
                                                              data-name="<?= $arField['FIELD_NAME'] ?>"
                                                              data-value="<?= $arItem[$arField['FIELD_NAME']] ?>"
                                                              class="<?=$edit ? 'js-init-field-change' : ''?>">
-                                                            <?= number_format($arItem[$arField['FIELD_NAME']], 2, '.', ' ') ?>
+                                                            <?= $arField['FIELD_NAME'] === 'UF_COMMENT' ? $arItem[$arField['FIELD_NAME']] : number_format($arItem[$arField['FIELD_NAME']], 2, '.', ' ') ?>
                                                         </div>
                                                     </td>
                                                     <?

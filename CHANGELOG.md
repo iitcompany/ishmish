@@ -24,6 +24,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 
 ### Fixed
 
+- Fix UF_COMMENT format in template in schedule payment
+
+## v0.0.22 - 2020-06-01
+
+### Fixed
+
 - Fix duplicate period (not copy payment fact)
 
 ## v0.0.21 - 2020-06-01
