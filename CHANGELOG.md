@@ -24,6 +24,12 @@ The format is based on [Keep a Changelog][keepachangelog] and this project adher
 
 ### Fixed
 
+- Fix message type in birthday chat reminder
+
+## v0.0.23 - 2020-06-03
+
+### Fixed
+
 - Fix UF_BALANCE in template in schedule payment
 
 ## v0.0.22 - 2020-06-01

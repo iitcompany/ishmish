@@ -281,14 +281,21 @@ function HappyBirthdayChatReminder()
     if (isset($birthdayChat)) {
         foreach ($birthdayChat as $arChat) {
             $message = 'Коллеги обратите внимание, скоро день рождения у сотрудника '.str_replace('День рождения сотрудника ', '', $arChat['NAME']);
-            $result = CIMChat::AddSystemMessage([
-                'CHAT_ID' => $arChat['ID'],
+            $result[] = CIMChat::AddMessage([
+                //'CHAT_ID' => $arChat['ID'],
+                //'DIALOG_ID' => $arChat['ID'],
+                'TO_CHAT_ID' => $arChat['ID'],
+                'AUTHOR_ID' => '1',
+                'FROM_USER_ID' => '1',
                 'USER_ID' => '1',
                 'MESSAGE' => $message,
-
             ]);
         }
     }
+    global $APPLICATION;
+    //dump($result);
+    //dump($APPLICATION->GetException());
+    //die();
 
     return "HappyBirthdayChatReminder();";
 }
