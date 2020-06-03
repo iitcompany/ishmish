@@ -150,8 +150,8 @@ function AutoPeriodsCreate()
 
                             foreach ($arPlatforms as $platform) {
                                 foreach ($arTargets as $target) {
-                                    $mustPay = SchedulePayments::getRecordFieldValue('UF_MUST_PAY', $arLastPeriod['ID'], $platform['ID'], $target['ID']);
-                                    $creditMoney = SchedulePayments::getRecordFieldValue('UF_CREDITMONEY', $arLastPeriod['ID'], $platform['ID'], $target['ID']);
+                                    $mustPay = SchedulePayments::getRecordFieldValue('UF_MUST_PAY', $arTemplatePeriod['ID'], $platform['ID'], $target['ID']);
+                                    $creditMoney = SchedulePayments::getRecordFieldValue('UF_CREDITMONEY', $arTemplatePeriod['ID'], $platform['ID'], $target['ID']);
 
                                     $totalMustPay = $totalMustPay + $mustPay;
                                     $fields = array(
@@ -171,7 +171,7 @@ function AutoPeriodsCreate()
                                     $itemsEntityClass::add($fields);
                                 }
                             }
-                            //$periodEntityClass::update($PERIOD_ID, array('UF_BALANCE_FACT' => $arLastPeriod['UF_PAYMENT_FACT'] - $totalMustPay));
+                            //$periodEntityClass::update($PERIOD_ID, array('UF_BALANCE' => $arTemplatePeriod['UF_PAYMENT_PLAN'] - $totalMustPay));
                         }
                     }
                 }
